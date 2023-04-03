@@ -1,0 +1,7 @@
+[submodule "modules/MonoRec"]
+	path = modules/MonoRec
+	url = https://github.com/Brummi/MonoRec.git
+[submodule "modules/ORB_SLAM3"]
+	path = modules/ORB_SLAM3
+	url = https://github.com/UZ-SLAMLab/ORB_SLAM3.git
+	branch = c++14_comp
