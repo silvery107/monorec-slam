@@ -1,5 +1,5 @@
 # MonoRec SLAM
-
+In this project, please write some introductions here...
 
 
 ## TODOs
@@ -12,29 +12,36 @@
 
 ## Installation
 
-1. Create a conda environment
+1. Download this repo and initialize all submodules
+
+    ```
+    git clone git@github.com:silvery107/monorec-slam-ros.git
+    git submodule update --init
+    ```
+    Or use `--recurse` option to clone submodules at the same time.
+
+2. Create a conda environment
    
     `conda env create -f environment.yml`
 
-2. Download pretrained MonoRec model
+3. Download pretrained MonoRec model
    
     ```cd modules/MonoRec && ./download_models.sh```
 
-3. Download the KITTI odometry dataset
+4. Download the KITTI odometry dataset
 
     To setup KITTI Odometry, download the color images and calibration files from the 
     [official website](http://www.cvlibs.net/datasets/kitti/eval_odometry.php) (around 65 GB). Then unzip the color images and calibration files into `data` folder. 
 
     For evaluation, MonoRec uses the poses estimated by [Deep Virtual Stereo Odometry (DVSO)](https://vision.in.tum.de/research/vslam/dvso). They can be downloaded from [here](https://vision.in.tum.de/_media/research/monorec/poses_dvso.zip) and should be placed under ``data/{kitti_path}/poses_dso``. This folder structure is ensured when unpacking the zip file in the ``{kitti_path}`` directory.
 
-4. Install `evo` for SLAM trajectory evaluation
+5. Install `evo` for SLAM trajectory evaluation
    
    `pip install evo --upgrade --no-binary evo`
 
-5. Install ORB-SLAM3 according to its [instructions](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/c++14_comp) and remember to install it on the `c++14_comp` branch
+6. Install ORB-SLAM3 according to its [instructions](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/c++14_comp) and remember to install it on the `c++14_comp` branch
 
 ## Quick Start
-
 
 
 ### Dataset Preprocessing
