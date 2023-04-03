@@ -5,3 +5,6 @@
 	path = modules/ORB_SLAM3
 	url = https://github.com/UZ-SLAMLab/ORB_SLAM3.git
 	branch = c++14_comp
+[submodule "modules/DynaSLAM"]
+	path = modules/DynaSLAM
+	url = https://github.com/BertaBescos/DynaSLAM.git

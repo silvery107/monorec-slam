@@ -13,9 +13,11 @@
 ## Installation
 
 1. Create a conda environment
+   
     `conda env create -f environment.yml`
 
 2. Download pretrained MonoRec model
+   
     ```cd modules/MonoRec && ./download_models.sh```
 
 3. Download the KITTI odometry dataset
@@ -26,6 +28,7 @@
     For evaluation, MonoRec uses the poses estimated by [Deep Virtual Stereo Odometry (DVSO)](https://vision.in.tum.de/research/vslam/dvso). They can be downloaded from [here](https://vision.in.tum.de/_media/research/monorec/poses_dvso.zip) and should be placed under ``data/{kitti_path}/poses_dso``. This folder structure is ensured when unpacking the zip file in the ``{kitti_path}`` directory.
 
 4. Install `evo` for SLAM trajectory evaluation
+   
    `pip install evo --upgrade --no-binary evo`
 
 5. Install ORB-SLAM3 according to its [instructions](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/c++14_comp) and remember to install it on the `c++14_comp` branch
@@ -36,9 +39,11 @@
 
 ### Dataset Preprocessing
 1. Run MonoRec model to get binary masks of moving objects
-   `python monorec_mask.py`
+   
+   `python src/monorec_mask.py`
 
 2. Prepare masked images from masks
+   
    `python src/image_preprocess.py`
 
 
