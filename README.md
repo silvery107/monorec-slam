@@ -51,7 +51,7 @@ In this project, please write some introductions here...
 
 2. Prepare masked images from masks
    
-   `python src/image_preprocess.py`
+   `python src/image_process.py --seq 7`
 
 
 
