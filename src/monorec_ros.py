@@ -51,8 +51,6 @@ class MonoRecNode:
         self.interm_size = (753, 376) if seq in [0, 20] else (740, 370)
         self.pad_length = (self.input_size[0]-self.interm_size[0]) // 2
 
-
-
     def run(self):
         rospy.loginfo("Start pumping images!")
         for batch_idx, (data, _) in enumerate(self.data_loader):
@@ -95,13 +93,7 @@ class MonoRecNode:
             else:
                 rospy.logwarn(f"Skipped mask for image {batch_idx:06d}")
 
-            # self.publish_image(img_to_pub, timestamp)
-            try:
-                header = Header()
-                header.stamp.secs = timestamp
-                self.img_pub.publish(self.bridge.cv2_to_imgmsg(img_to_pub, "rgb8", header))
-            except CvBridgeError as e:
-                rospy.logerr(e)
+            self.publish_image(img_to_pub, timestamp)
             
             self.rate.sleep()
         
@@ -109,15 +101,16 @@ class MonoRecNode:
 
     def publish_image(self, img, timestamp):
         img_msg = Image()
-        img_msg.header.stamp.secs = timestamp
+        img_msg.header.stamp = rospy.Time(timestamp)
         img_msg.height = img.shape[0]
         img_msg.width = img.shape[1]
         img_msg.encoding = "rgb8" # RGB from PIL Image format
         # img_msg.encoding = "bgr8" # BGR from cv2 format
         if img.dtype.byteorder == '>':
             img_msg.is_bigendian = 1
-        img_msg.step = len(img_msg.data) // img_msg.height
         img_msg.data = img.tobytes()
+        img_msg.step = len(img_msg.data) // img_msg.height
+        # img_msg.step = img.strides[0]
 
         self.img_pub.publish(img_msg)
 
@@ -128,7 +121,7 @@ if __name__ == '__main__':
     parser.add_argument("--seq", type=int, default=7, required=True)
     args = parser.parse_args()
 
-    rospy.init_node("monorec_slam")
+    rospy.init_node("MonoRecSLAM")
     
     rospy.loginfo("Initializing MonoRec SLAM node...")
 
