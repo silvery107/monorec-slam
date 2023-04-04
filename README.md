@@ -66,15 +66,15 @@ cd modules/ORB_SLAM3
 1. Convert KITTI ground truth poses into TUM format for monocular KITTI evaluation purpose.
    ```
    python src/kitti_poses_and_timestamps_to_trajectory.py \
-   ../data//{seq_id}/{seq_id}.txt \
+   ../data/gt_poses/{seq_id}.txt \
    ../data/{seq_id}/times.txt \
    ../data/{seq_id}/{seq_id}_gt.txt
    ```
+    Note that we need TUM format here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
 2. Plot multiple trajectories with ground truth
     ```
     evo_traj tum traj1.txt traj2.txt --ref traj_gt.txt -p --plot_mode=xz
     ```
-    Note that we use `tum` here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
 3. Compute absolute pose error on trajectories
    ```
    evo_ape tum traj_gt.txt traj.txt --align --correct_scale
@@ -88,7 +88,7 @@ The combined implementation of MonoRec SLAM is under implementing by piping mask
 
 ## Benchmarks
 
-Compare SLAM result on KITTI dataset using ORB-SLAM3, DynaSMAL and MonoRecSLAM
+Compare SLAM result on KITTI dataset using ORB-SLAM3, DynaSLAM and MonoRecSLAM
 
 | Sequence | ORB-SLAM | DynaSLAM | MonoRecSLAM |
 |:--------:|:--------:|:--------:|:-----------:|
