@@ -1,6 +1,3 @@
-[submodule "modules/MonoRec"]
-	path = modules/MonoRec
-	url = https://github.com/Brummi/MonoRec.git
 [submodule "modules/ORB_SLAM3"]
 	path = modules/ORB_SLAM3
 	url = https://github.com/UZ-SLAMLab/ORB_SLAM3.git
@@ -8,3 +5,6 @@
 [submodule "modules/DynaSLAM"]
 	path = modules/DynaSLAM
 	url = https://github.com/BertaBescos/DynaSLAM.git
+[submodule "modules/MonoRec"]
+	path = modules/MonoRec
+	url = git@github.com:silvery107/MonoRec.git
