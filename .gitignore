@@ -33,3 +33,5 @@
 
 # Custom
 data/
+__pycache__/
+.vscode/

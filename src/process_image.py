@@ -139,12 +139,12 @@ if __name__ == "__main__":
 
 
     sequence_id = args.seq
-
+    dataset_path = f"data/kitti/sequences/{sequence_id:02d}"
     # align_img_with_mask("data/kitti/20/", "data/kitti/20_resize/")
-    align_mask_with_img(f"data/kitti/{sequence_id:02d}/", 
-                        f"data/kitti/{sequence_id:02d}_mask/", 
-                        f"data/kitti/{sequence_id:02d}_mask_align/",
+    align_mask_with_img(f"{dataset_path}/", 
+                        f"{dataset_path}_mask/", 
+                        f"{dataset_path}_mask_align/",
                         sequence_id)
-    mask_out_img(f"data/kitti/{sequence_id:02d}/", 
-                 f"data/kitti/{sequence_id:02d}_mask_align/", 
-                 f"data/kitti/{sequence_id:02d}_mask_out/")
+    mask_out_img(f"{dataset_path}/", 
+                 f"{dataset_path}_mask_align/", 
+                 f"{dataset_path}_mask_out/")
