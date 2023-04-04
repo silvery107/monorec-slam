@@ -33,7 +33,7 @@ def scale_image(img, factor=1):
 def align_img_with_mask(data_path, output_path, sequence_id, n_skip=0):
     shutil.rmtree(output_path, ignore_errors=True)
     os.makedirs(output_path, exist_ok=False)
-    dsize_1 = (753, 376) if sequence_id==20 else (740, 370)
+    dsize_1 = (753, 376) if sequence_id in [0, 20] else (740, 370)
     dir_list = os.listdir(data_path)
     dir_list.sort()
     counter = 0
@@ -65,8 +65,8 @@ def align_mask_with_img(data_path, mask_path, output_path, sequence_id):
     dir_list = os.listdir(mask_path)
     dir_list.sort()
     counter = 0
-    org_size = (1241, 376) if sequence_id==20 else (1226, 370)
-    dsize = (753, 376) if sequence_id==20 else (740, 370)
+    org_size = (1241, 376) if sequence_id in [0, 20] else (1226, 370)
+    dsize = (753, 376) if sequence_id in [0, 20] else (740, 370)
     pad_length = (org_size[0] - dsize[0]) // 2
     print(f"[INFO] Aligning masks from {mask_path}, output to {output_path}")
     confirm = input("Are you sure? (y/n)")
@@ -107,7 +107,7 @@ def mask_out_img(data_path, mask_path, output_path):
         mask = cv2.imread(mask_path+filename, cv2.IMREAD_GRAYSCALE)
         # print(img.shape, img.dtype)
         # print(img.shape, mask.shape)
-        img_to_save = img.copy()
+        img_to_save = img
         if mask is not None:
             mask_inv = cv2.bitwise_not(mask)
             assert mask_inv.shape[0] == img_to_save.shape[0]
@@ -125,7 +125,7 @@ def recover_inpaint_img(data_path, inpaint_path, output_path, sequence_id):
     dir_list = os.listdir(data_path)
     dir_list.sort()
     counter = 0
-    dsize = (753, 376) if sequence_id==20 else (740, 370)
+    dsize = (753, 376) if sequence_id in [0, 20] else (740, 370)
     for filename in dir_list:
         counter += 1
         img = cv2.imread(data_path+filename)

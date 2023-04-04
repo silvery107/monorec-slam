@@ -1,11 +1,4 @@
-import os
-import inspect
 import sys
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-os.sys.path.insert(0, parentdir)
-
 import time
 from pathlib import Path
 
@@ -28,8 +21,8 @@ device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--seq", type=int, default=7, required=True)
     parser.add_argument("--dataset", type=str, default="kitti", required=True, choices=["kitti", "tum"])
+    parser.add_argument("--seq", type=int, default=7, required=True)
     args = parser.parse_args()
 
     if args.dataset == "kitti":
