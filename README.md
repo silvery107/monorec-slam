@@ -66,9 +66,9 @@ cd modules/ORB_SLAM3
 1. Convert KITTI ground truth poses into TUM format for monocular KITTI evaluation purpose.
    ```
    python src/kitti_poses_and_timestamps_to_trajectory.py \
-   ../data/gt_poses/{seq_id}.txt \
-   ../data/{seq_id}/times.txt \
-   ../data/{seq_id}/{seq_id}_gt.txt
+   ../data/kitti/gt_poses/{seq_id}.txt \
+   ../data/kitti/{seq_id}/times.txt \
+   ../data/kitti/{seq_id}/{seq_id}_gt.txt
    ```
     Note that we need TUM format here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
 2. Plot multiple trajectories with ground truth
