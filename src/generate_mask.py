@@ -1,5 +1,6 @@
 import os
 import inspect
+import sys
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -51,8 +52,13 @@ if __name__ == "__main__":
     monorec_model.to(device)
     monorec_model.eval()
 
-    output_path = f"data/{args.dataset}/{args.seq:02d}_mask"
+    output_path = f"data/{args.dataset}/sequences/{args.seq:02d}_mask"
     print(f"Resulting masks will be saved to {output_path}")
+    confirm = input("Are you sure? (y/n)")
+    if (confirm.lower().find("y") != -1 or confirm.lower().find("yes") != -1):
+        print("Confirmed")
+    else:
+        sys.exit("User rejected")
     shutil.rmtree(output_path, ignore_errors=True)
     os.makedirs(output_path, exist_ok=True)
 

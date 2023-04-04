@@ -1,3 +1,4 @@
+import sys
 import cv2
 import os
 import numpy as np
@@ -36,6 +37,12 @@ def align_img_with_mask(data_path, output_path, sequence_id, n_skip=0):
     dir_list = os.listdir(data_path)
     dir_list.sort()
     counter = 0
+    print(f"[INFO] Aligning images from {data_path}, output to {output_path}")
+    confirm = input("Are you sure? (y/n)")
+    if (confirm.lower().find("y") != -1 or confirm.lower().find("yes") != -1):
+        print("[INFO] Confirmed")
+    else:
+        sys.exit("[INFO] User rejected")
     for filename in dir_list:
         counter += 1
         if counter <= n_skip:
@@ -50,7 +57,7 @@ def align_img_with_mask(data_path, output_path, sequence_id, n_skip=0):
         
         cv2.imwrite(output_path+f"{img_id-n_skip:06d}.png", img)
 
-    print(f"Processed {counter} images and skipped {n_skip} images")
+    print(f"[INFO] Processed {counter} images and skipped {n_skip} images")
 
 def align_mask_with_img(data_path, mask_path, output_path, sequence_id):
     shutil.rmtree(output_path, ignore_errors=True)
@@ -61,7 +68,12 @@ def align_mask_with_img(data_path, mask_path, output_path, sequence_id):
     org_size = (1241, 376) if sequence_id==20 else (1226, 370)
     dsize = (753, 376) if sequence_id==20 else (740, 370)
     pad_length = (org_size[0] - dsize[0]) // 2
-    print(f"Aligning masks from {mask_path}, output to {output_path}")
+    print(f"[INFO] Aligning masks from {mask_path}, output to {output_path}")
+    confirm = input("Are you sure? (y/n)")
+    if (confirm.lower().find("y") != -1 or confirm.lower().find("yes") != -1):
+        print("[INFO] Confirmed")
+    else:
+        sys.exit("[INFO] User rejected")
     for filename in dir_list:
         counter += 1
         img = cv2.imread(mask_path+filename, cv2.IMREAD_GRAYSCALE)
@@ -74,7 +86,7 @@ def align_mask_with_img(data_path, mask_path, output_path, sequence_id):
         # assert mask_to_save.shape[0] == 376 and mask_to_save.shape[1] == 1241
         cv2.imwrite(output_path+filename, mask_to_save)
     
-    print(f"Processed {counter} images")
+    print(f"[INFO] Processed {counter} images")
 
 def mask_out_img(data_path, mask_path, output_path):
     shutil.rmtree(output_path, ignore_errors=True)
@@ -82,7 +94,12 @@ def mask_out_img(data_path, mask_path, output_path):
     dir_list = os.listdir(data_path)
     dir_list.sort()
     counter = 0
-    print(f"Masking images from {data_path} with masks from {mask_path}, output to {output_path}")
+    print(f"[INFO] Masking images from {data_path} with masks from {mask_path}, output to {output_path}")
+    confirm = input("Are you sure? (y/n)")
+    if (confirm.lower().find("y") != -1 or confirm.lower().find("yes") != -1):
+        print("[INFO] Confirmed")
+    else:
+        sys.exit("[INFO] User rejected")
 
     for filename in dir_list:
         counter += 1
@@ -96,11 +113,11 @@ def mask_out_img(data_path, mask_path, output_path):
             assert mask_inv.shape[0] == img_to_save.shape[0]
             img_to_save = cv2.bitwise_and(img_to_save, img_to_save, mask=mask_inv)
         else:
-            print(f"Skipped mask for image {data_path+filename}")
+            print(f"[WARN] Skipped mask for image {data_path+filename}")
         # assert mask_to_save.shape[0] == 376 and mask_to_save.shape[1] == 1241
         cv2.imwrite(output_path+filename, img_to_save)
     
-    print(f"Processed {counter} images")
+    print(f"[INFO] Processed {counter} images")
 
 def recover_inpaint_img(data_path, inpaint_path, output_path, sequence_id):
     shutil.rmtree(output_path, ignore_errors=True)
@@ -129,7 +146,7 @@ def recover_inpaint_img(data_path, inpaint_path, output_path, sequence_id):
 
         cv2.imwrite(output_path+filename, img_to_save)
     
-    print(f"Processed {counter} images")
+    print(f"[INFO] Processed {counter} images")
 
 
 if __name__ == "__main__":
@@ -145,6 +162,6 @@ if __name__ == "__main__":
                         f"{dataset_path}_mask/", 
                         f"{dataset_path}_mask_align/",
                         sequence_id)
-    mask_out_img(f"{dataset_path}/", 
+    mask_out_img(f"{dataset_path}/image_2/", 
                  f"{dataset_path}_mask_align/", 
-                 f"{dataset_path}_mask_out/")
+                 f"{dataset_path}/image_0/")
