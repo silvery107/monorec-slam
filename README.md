@@ -14,7 +14,7 @@ In this project, please write some introductions here...
 
 1. Download this repo and initialize all submodules
 
-    ```
+    ```bash
     git clone git@github.com:silvery107/monorec-slam-ros.git
     git submodule update --init
     ```
@@ -41,8 +41,34 @@ In this project, please write some introductions here...
 
 6. Install ORB-SLAM3 according to its [instructions](https://github.com/UZ-SLAMLab/ORB_SLAM3/tree/c++14_comp) and remember to install it on the `c++14_comp` branch. Install its ROS interface as well.
 
+7. The dataset structure should be like this
+
+    ```
+    data
+    ├── kitti
+    │   ├── poses
+    │   ├── poses_dvso
+    │   └── sequences
+    |       └── ...
+    └── ...
+    ```
+
 ## Quick Start
 
+### Run with ROS
+The combined implementation of MonoRec SLAM is done by pumping masked image onto the `/camera/image_raw` ROS topic and utilizing the ROS interface from ORB-SLAM3 to perform SLAM.
+
+```bash
+# terminal 1
+roscore
+# terminal 2
+rosrun ORB_SLAM3 Mono Vocabulary/ORBvoc.txt Examples/Monocular/KITTI04-12.yaml 
+# terminal 3
+python src/monorec_ros.py
+```
+
+
+or ...
 
 ### Dataset Preprocessing
 1. Run MonoRec model to get binary masks of moving objects
@@ -51,22 +77,22 @@ In this project, please write some introductions here...
 
 2. Prepare masked images from masks
    
-   `python src/image_process.py --seq 7`
+   `python src/process_image.py --seq 7`
 
 
 
 ### SLAM with ORB-SLAM3
 1. Run SLAM on precessed dataset, e.g.
-    ```
+    ```bash
     cd modules/ORB_SLAM3
     ./Examples/Monocular/mono_kitti ./Vocabulary/ORBvoc.txt ./Examples/Monocular/{config}.yaml ../../data/kitti/squences/07
     ```
 2. Copy the resulted `KeyFrameTrajectory.txt` onto e.g. `results/kitti/07/`
 
 
-### Trajectory Evaluation
+## Trajectory Evaluation
 1. Convert KITTI ground truth poses into TUM format for monocular KITTI evaluation purpose.
-    ```
+    ```bash
     python src/kitti_poses_and_timestamps_to_trajectory.py \
     data/kitti/poses/07.txt \
     data/kitti/sequences/07/times.txt \
@@ -75,35 +101,31 @@ In this project, please write some introductions here...
     Note that we need TUM format here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
 
 2. Plot multiple trajectories with ground truth
-    ```
+    ```bash
     evo_traj tum {traj1}.txt {traj2}.txt --ref pose.txt -as -p --plot_mode xz
     ```
     Note that `-as` stands for `--align --correct_scale`
 
 3. Compute absolute pose error on trajectories
-    ```
+    ```bash
     evo_ape tum pose.txt {traj}.txt -as -p --plot_mode xz --save_results results/{trial_name}.zip
     ```
 
 4. Save plots
-    ```
+    ```bash
     evo_res results/*.zip -p --save_table results/table.csv
     ```
 
-## ROS Support
-Coming soon...
-
-The combined implementation of MonoRec SLAM is under implementing by piping masked image onto the `/camera/image_masked` ROS topic and utilizing the ROS interface from ORB-SLAM3 to perform SLAM.
 
 ## Benchmarks
 
-Compare SLAM result on KITTI dataset using ORB-SLAM3, DynaSLAM and MonoRecSLAM
+Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITTI dataset
 
 | Sequence | ORB-SLAM | DynaSLAM | MonoRecSLAM |
 |:--------:|:--------:|:--------:|:-----------:|
 |    00    |   5.33   |   7.55   |             |
-|    04    |   1.62   |   0.97   |    1.39     |
-|    07    |   2.26   |   2.36   |    2.09     |
+|    04    |   1.62   | **0.97** |    1.39     |
+|    07    |   2.26   |   2.36   |  **2.09**   |
 |    08    |   46.68  |   40.28  |             |
 
 ## Dependencies
