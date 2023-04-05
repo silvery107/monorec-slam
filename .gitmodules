@@ -1,0 +1,3 @@
+[submodule "DynaSLAM"]
+	path = DynaSLAM
+	url = https://github.com/alexs7/DynaSLAM.git
