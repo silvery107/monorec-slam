@@ -6,7 +6,8 @@ In this project, please write some introductions here...
 - [x] Run MonoRec SLAM on KITTI sequence 00, 04, 07 and 08
 - [x] Organizing monorec and orb-slam in `modules` folder as git submodules
 - [x] Test all scripts can be run in a correct workpath
-- [ ] Implment a monorec ROS node
+- [x] Implment a monorec ROS node
+- [ ] Consider adding TUM dataset compatibility
 
 
 
@@ -64,7 +65,7 @@ roscore
 # terminal 2
 rosrun ORB_SLAM3 Mono Vocabulary/ORBvoc.txt Examples/Monocular/KITTI04-12.yaml 
 # terminal 3
-python src/monorec_ros.py
+python src/monorec_ros.py --dataset kitti --seq 7
 ```
 
 
@@ -123,10 +124,10 @@ Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITT
 
 | Sequence | ORB-SLAM | DynaSLAM | MonoRecSLAM |
 |:--------:|:--------:|:--------:|:-----------:|
-|    00    |   5.33   |   7.55   |             |
+|    00    | **5.33** |   7.55   |    6.71     |
 |    04    |   1.62   | **0.97** |    1.39     |
+|    05    |   4.85   | **4.60** |  **4.60**   |
 |    07    |   2.26   |   2.36   |  **2.09**   |
-|    08    |   46.68  |   40.28  |             |
 
 ## Dependencies
 - Ubuntu 20.04 with ROS Noetic
