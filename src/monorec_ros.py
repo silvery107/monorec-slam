@@ -5,15 +5,12 @@ from pathlib import Path
 
 import rospy
 from sensor_msgs.msg import Image
-from std_msgs.msg import Header
-import matplotlib.pyplot as plt
 
 import torch
 from data_loader.kitti_odometry_dataset import KittiOdometryDataset
 from model.monorec.monorec_model import MonoRecModel
 from data_loader.data_loaders import BaseDataLoader
 from utils import to
-from cv_bridge import CvBridge, CvBridgeError
 
 
 class MonoRecNode:
@@ -44,8 +41,6 @@ class MonoRecNode:
 
         dilatation_size = 8
         self.kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2*dilatation_size+1, 2*dilatation_size+1), (dilatation_size, dilatation_size))
-        self.masked_image = None
-        self.bridge = CvBridge()
         
         self.input_size = (1241, 376) if seq in [0, 20] else (1226, 370)
         self.interm_size = (753, 376) if seq in [0, 20] else (740, 370)
