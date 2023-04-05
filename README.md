@@ -31,7 +31,7 @@ PS: I did not get the inpainting working - I think it is not released - please l
 
 DynaSLAM is a visual SLAM system that is robust in dynamic scenarios for monocular, stereo and RGB-D configurations. Having a static map of the scene allows inpainting the frame background that has been occluded by such dynamic objects.
 
-<img src="imgs/teaser.png" width="900px"/>
+![image](https://user-images.githubusercontent.com/99144386/229972836-ed7d8e3c-6ad5-4aa4-8d9d-d786e3d2ff6e.png)
 
 DynaSLAM: Tracking, Mapping and Inpainting in Dynamic Scenes   
 [Berta Bescos](http://bertabescos.github.io), [José M. Fácil](http://webdiis.unizar.es/~jmfacil/), [Javier Civera](http://webdiis.unizar.es/~jcivera/) and [José Neira](http://webdiis.unizar.es/~jneira/)   
