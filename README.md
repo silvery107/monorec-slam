@@ -78,7 +78,7 @@ or ...
 
 2. Prepare masked images from masks
    
-   `python src/process_image.py --seq 7`
+   `python src/process_image.py --dataset kitti --seq 7`
 
 
 
