@@ -95,9 +95,9 @@ or ...
 1. Convert KITTI ground truth poses into TUM format for monocular KITTI evaluation purpose.
     ```bash
     python src/kitti_poses_and_timestamps_to_trajectory.py \
-    data/kitti/poses/07.txt \
-    data/kitti/sequences/07/times.txt \
-    results/kitti/07/pose.txt
+        data/kitti/poses/07.txt \
+        data/kitti/sequences/07/times.txt \
+        results/kitti/07/pose.txt
     ```
     Note that we need TUM format here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
 
