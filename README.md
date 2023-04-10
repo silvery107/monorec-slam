@@ -25,9 +25,12 @@ In this project, please write some introductions here...
    
     `conda env create -f environment.yml`
 
-3. Download pretrained MonoRec model
+3. Download pretrained MonoRec model and install MonoRec as a submodule
    
-    ```cd modules/MonoRec && ./download_models.sh```
+    ```
+    cd modules/MonoRec && ./download_models.sh
+    pip install -e .
+    ```
 
 4. Download the KITTI odometry dataset
 
