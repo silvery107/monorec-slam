@@ -151,10 +151,15 @@ def recover_inpaint_img(data_path, inpaint_path, output_path, sequence_id):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset", type=str, default="kitti", required=True, choices=["kitti", "tum"])
     parser.add_argument("--seq", type=int, default=7, required=True)
     args = parser.parse_args()
 
-
+    if args.dataset == "kitti":
+        pass
+    else:
+        raise NotImplementedError(f"Dataset type {args.dataset} is not supported for now")
+    
     sequence_id = args.seq
     dataset_path = f"data/kitti/sequences/{sequence_id:02d}"
     # align_img_with_mask("data/kitti/20/", "data/kitti/20_resize/")
