@@ -5,6 +5,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import torch
 
+from data_loader.tum_rgbd_dataset import TUMRGBDDataset
 from data_loader.kitti_odometry_dataset import KittiOdometryDataset
 from model.monorec.monorec_model import MonoRecModel
 from utils import unsqueezer, map_fn, to
@@ -22,13 +23,16 @@ device = "cuda:0" if torch.cuda.is_available() else "cpu"
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="kitti", required=True, choices=["kitti", "tum"])
-    parser.add_argument("--seq", type=int, default=7, required=True)
+    parser.add_argument("--seq", type=int, default=7, required=False)
+    parser.add_argument("--seq_name", type=str, default="rgbd_dataset_freiburg3_walking_halfsphere", required=False)
     args = parser.parse_args()
 
     if args.dataset == "kitti":
         dataset = KittiOdometryDataset("data/kitti", sequences=[f"{args.seq:02d}"], target_image_size=target_image_size, frame_count=2,
                                     depth_folder="image_depth_annotated", lidar_depth=False, use_dso_poses=True,
                                     use_index_mask=None)
+    elif args.dataset == "tum":
+        dataset = TUMRGBDDataset(dataset_dir=f"data/tum/{args.seq_name}", frame_count=2, target_image_size=target_image_size)
     else:
         raise NotImplementedError(f"Dataset type {args.dataset} is not supported for now")
 
@@ -45,7 +49,11 @@ if __name__ == "__main__":
     monorec_model.to(device)
     monorec_model.eval()
 
-    output_path = f"data/{args.dataset}/sequences/{args.seq:02d}_mask"
+    if args.dataset == "kitti":
+        output_path = f"data/{args.dataset}/sequences/{args.seq:02d}_mask"
+    elif args.dataset == "tum":
+        output_path = f"data/{args.dataset}/{args.seq_name}/mask"
+
     print(f"Resulting masks will be saved to {output_path}")
     confirm = input("Are you sure? (y/n)")
     if (confirm.lower().find("y") != -1 or confirm.lower().find("yes") != -1):

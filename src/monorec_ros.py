@@ -7,6 +7,7 @@ import rospy
 from sensor_msgs.msg import Image
 
 import torch
+from data_loader.tum_rgbd_dataset import TUMRGBDDataset
 from data_loader.kitti_odometry_dataset import KittiOdometryDataset
 from model.monorec.monorec_model import MonoRecModel
 from data_loader.data_loaders import BaseDataLoader
@@ -14,17 +15,24 @@ from utils import to
 
 
 class MonoRecNode:
-    def __init__(self, dataset_type, seq, pub_rate=10) -> None:
+    def __init__(self, dataset_type, seq, seq_name, pub_rate=10) -> None:
         self.img_pub = rospy.Publisher("camera/image_raw", Image, queue_size=1)
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
         self.target_image_size = (256, 512)
         self.rate = rospy.Rate(pub_rate)
+        self.dataset_type = dataset_type
         
         dataset = None
         if dataset_type == "kitti":
             dataset = KittiOdometryDataset("data/kitti", sequences=[f"{seq:02d}"], target_image_size=self.target_image_size, frame_count=2,
                                         depth_folder="image_depth_annotated", lidar_depth=False, use_dso_poses=True,
                                         use_index_mask=None)
+            self.input_size = (1241, 376) if seq in [0, 20] else (1226, 370)
+            self.interm_size = (753, 376) if seq in [0, 20] else (740, 370)
+            self.pad_length = (self.input_size[0]-self.interm_size[0]) // 2
+        elif dataset_type == "tum":
+            dataset = TUMRGBDDataset(dataset_dir=f"data/tum/{seq_name}", frame_count=2, target_image_size=self.target_image_size)
+            self.input_size = (640, 480)
         else:
             raise NotImplementedError(f"Dataset type {dataset_type} is not supported for now")
 
@@ -42,9 +50,6 @@ class MonoRecNode:
         dilatation_size = 8
         self.kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2*dilatation_size+1, 2*dilatation_size+1), (dilatation_size, dilatation_size))
         
-        self.input_size = (1241, 376) if seq in [0, 20] else (1226, 370)
-        self.interm_size = (753, 376) if seq in [0, 20] else (740, 370)
-        self.pad_length = (self.input_size[0]-self.interm_size[0]) // 2
 
     def run(self):
         rospy.loginfo("Start pumping images!")
@@ -72,10 +77,13 @@ class MonoRecNode:
             
             # Align output mask to input image size
             mask_align = mask_orig
-            mask_align = cv2.resize(mask_align, self.interm_size)
-            mask_align = cv2.copyMakeBorder(mask_align, 
-                                            0, 0, self.pad_length, self.pad_length, 
-                                            borderType=cv2.BORDER_CONSTANT, value=0)
+            if self.dataset_type == "kitti":
+                mask_align = cv2.resize(mask_align, self.interm_size)
+                mask_align = cv2.copyMakeBorder(mask_align, 
+                                                0, 0, self.pad_length, self.pad_length, 
+                                                borderType=cv2.BORDER_CONSTANT, value=0)
+            elif self.dataset_type == "tum":
+                mask_align = cv2.resize(mask_align, self.input_size)
 
             # Apply mask to input image
             img_to_pub = img
@@ -113,14 +121,15 @@ class MonoRecNode:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", type=str, default="kitti", required=True, choices=["kitti", "tum"])
-    parser.add_argument("--seq", type=int, default=7, required=True)
+    parser.add_argument("--seq", type=int, default=7, required=False)
+    parser.add_argument("--seq_name", type=str, default="rgbd_dataset_freiburg3_walking_halfsphere", required=False)
     args = parser.parse_args()
 
     rospy.init_node("MonoRecSLAM")
     
     rospy.loginfo("Initializing MonoRec SLAM node...")
 
-    node = MonoRecNode(args.dataset, args.seq)
+    node = MonoRecNode(args.dataset, args.seq, args.seq_name)
 
     try:
         node.run()
