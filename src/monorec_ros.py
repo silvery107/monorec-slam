@@ -67,9 +67,11 @@ class MonoRecNode:
                 output_dict = self.monorec_model(data)
 
             mask_orig = output_dict["cv_mask"][0, 0].detach().cpu().numpy() # (H, W)
-            # mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel=kernel, iterations=6)
-            mask_orig = cv2.dilate(mask_orig, self.kernel, iterations=6)
-            mask_orig = cv2.erode(mask_orig, self.kernel, iterations=4)
+            if self.dataset_type == "kitti":
+                mask_orig = cv2.dilate(mask_orig, self.kernel, iterations=6)
+                mask_orig = cv2.erode(mask_orig, self.kernel, iterations=4)
+            elif self.dataset_type == "tum":
+                mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel=self.kernel, iterations=6)
             mask_orig = (255*(mask_orig - np.min(mask_orig))/np.ptp(mask_orig)).astype(np.uint8)
             _, mask_orig = cv2.threshold(mask_orig, 50, 255, cv2.THRESH_BINARY)
 
