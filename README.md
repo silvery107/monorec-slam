@@ -7,7 +7,7 @@ In this project, please write some introductions here...
 - [x] Organizing monorec and orb-slam in `modules` folder as git submodules
 - [x] Test all scripts can be run in a correct workpath
 - [x] Implment a monorec ROS node
-- [ ] Consider adding TUM dataset compatibility
+- [x] Add TUM dataset compatibility
 
 
 
