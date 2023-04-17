@@ -1,15 +1,19 @@
 # MonoRec SLAM
 In this project, please write some introductions here...
 
-
-## TODOs
-- [x] Run MonoRec SLAM on KITTI sequence 00, 04, 07 and 08
-- [x] Organizing monorec and orb-slam in `modules` folder as git submodules
-- [x] Test all scripts can be run in a correct workpath
-- [x] Implment a monorec ROS node
-- [x] Add TUM dataset compatibility
+<img src="figures/monorec_slam.png" width="800">
 
 
+## Benchmarks
+
+Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITTI dataset
+
+| Sequence | ORB-SLAM | DynaSLAM | MonoRecSLAM |
+|:--------:|:--------:|:--------:|:-----------:|
+|    00    | **5.33** |   7.55   |    6.71     |
+|    04    |   1.62   | **0.97** |    1.39     |
+|    05    |   4.85   | **4.60** |  **4.60**   |
+|    07    |   2.26   |   2.36   |  **2.09**   |
 
 ## Installation
 
@@ -54,13 +58,17 @@ In this project, please write some introductions here...
     │   ├── poses_dvso
     │   └── sequences
     |       └── ...
-    └── ...
+    └── tum
+        ├── rgbd_dataset_freiburg3_walking_xyz
+        └── ...
     ```
 
 ## Quick Start
 
-### Run with ROS
-The combined implementation of MonoRec SLAM is done by pumping masked image onto the `/camera/image_raw` ROS topic and utilizing the ROS interface from ORB-SLAM3 to perform SLAM.
+Here we take the sequence 07 of KITTI dataset as an example.
+
+#### Run with ROS
+The combined implementation of MonoRec SLAM is done by pumping masked image onto the `/camera/image_raw` ROS topic and utilizing the ROS interface from ORB-SLAM3 to perform SLAM. 
 
 ```bash
 # terminal 1
@@ -74,7 +82,7 @@ python src/monorec_ros.py --dataset kitti --seq 7
 
 or ...
 
-### Dataset Preprocessing
+#### Dataset Preprocessing
 1. Run MonoRec model to get binary masks of moving objects
    
    `python src/generate_mask.py --dataset kitti --seq 7`
@@ -85,7 +93,7 @@ or ...
 
 
 
-### SLAM with ORB-SLAM3
+#### SLAM with ORB-SLAM3
 1. Run SLAM on precessed dataset, e.g.
     ```bash
     cd modules/ORB_SLAM3
@@ -102,7 +110,7 @@ or ...
         data/kitti/sequences/07/times.txt \
         results/kitti/07/pose.txt
     ```
-    Note that we need TUM format here since trajectories from mono SLAM on KITTI can only be saved in TUM format.
+    Note that we need TUM format here since trajectories from monocular SLAM on KITTI can only be saved in TUM format.
 
 2. Plot multiple trajectories with ground truth
     ```bash
@@ -121,21 +129,10 @@ or ...
     ```
 
 
-## Benchmarks
-
-Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITTI dataset
-
-| Sequence | ORB-SLAM | DynaSLAM | MonoRecSLAM |
-|:--------:|:--------:|:--------:|:-----------:|
-|    00    | **5.33** |   7.55   |    6.71     |
-|    04    |   1.62   | **0.97** |    1.39     |
-|    05    |   4.85   | **4.60** |  **4.60**   |
-|    07    |   2.26   |   2.36   |  **2.09**   |
-
 ## Dependencies
 - Ubuntu 20.04 with ROS Noetic
 - Python >= 3.7
-- OpenCV >= 4.5
+- OpenCV >= 4.2
 - [ORB-SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3)
-- [MonoRec](https://github.com/Brummi/MonoRec)
+- [MonoRec](https://github.com/silvery107/MonoRec)
 - [evo](https://github.com/MichaelGrupp/evo)
