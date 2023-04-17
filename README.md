@@ -106,13 +106,13 @@ or ...
 
 2. Plot multiple trajectories with ground truth
     ```bash
-    evo_traj tum {traj1}.txt {traj2}.txt --ref pose.txt -as -p --plot_mode xz
+    evo_traj tum {traj1}.txt {traj2}.txt --ref pose.txt -s --align_origin -p --plot_mode xz --save_plot plot_name
     ```
     Note that `-as` stands for `--align --correct_scale`
 
 3. Compute absolute pose error on trajectories
     ```bash
-    evo_ape tum pose.txt {traj}.txt -as -p --plot_mode xz --save_results results/{trial_name}.zip
+    evo_ape tum pose.txt {traj}.txt -as -p --plot_mode xz --save_plot plot_name
     ```
 
 4. Save plots

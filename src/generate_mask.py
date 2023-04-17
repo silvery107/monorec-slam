@@ -75,6 +75,7 @@ if __name__ == "__main__":
         s = time.time()
         with torch.no_grad():
             output_dict = monorec_model(data)
+        e = time.time()
 
         mask = output_dict["cv_mask"][0, 0].detach().cpu().numpy() # (H, W)
         mask_to_save = mask
@@ -86,7 +87,6 @@ if __name__ == "__main__":
 
         plt.imsave(f"{output_path}/{counter:06d}.png", mask_to_save, cmap='gray')
         # print(f"mask: {mask.shape}, {mask.dtype}")
-        e = time.time()
         # print(f"Inference took {e - s}s")
         inference_times.append(e-s)
 
