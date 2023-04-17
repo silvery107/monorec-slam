@@ -1,5 +1,12 @@
 # MonoRec SLAM
-In this project, please write some introductions here...
+In this project, our method:
+
+- Prevent the tracking algorithm from using matches that belong to dynamic objects, in most cases achieving the highest accuracy in evaluation.
+
+- Prevent the mapping algorithm from including moving objects as part of the 3D map, obtaining a more static map of scenes.
+
+- Achieve a great balance between real-time capability and dynamic object masking.
+
 
 <img src="figures/monorec_slam.png" width="800">
 
