@@ -146,3 +146,7 @@ or ...
 - [ORB-SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3)
 - [MonoRec](https://github.com/silvery107/MonoRec)
 - [evo](https://github.com/MichaelGrupp/evo)
+
+## Acknowledgement
+
+Team 21 of ROB 530 Mobile Robotics W23: [Yulun Zhuang](https://github.com/silvery107), [Hao Liu](https://github.com/wdliu356), [Xingqiao Zhu](https://github.com/xqiao12), [Vaishnavi Harikumar](https://github.com/ivaishi) and Janani Peri.
