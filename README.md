@@ -12,6 +12,8 @@ In this project, our method:
 
 <img src="figures/teaser.png" width="800">
 
+<img src="figures/demo_keyframe.gif" width="800">
+
 ## Benchmarks
 
 Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITTI dataset
