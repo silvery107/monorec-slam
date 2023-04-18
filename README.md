@@ -27,6 +27,8 @@ Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITT
 
 ## Installation
 
+<details>
+<summary>Click to view details</summary>
 1. Download this repo and initialize all submodules
 
     ```bash
@@ -72,6 +74,7 @@ Absolute trajectory RMSE (m) for ORB-SLAM3, DynaSLAM and MonoRecSLAM on the KITT
         ├── rgbd_dataset_freiburg3_walking_xyz
         └── ...
     ```
+</details>
 
 ## Quick Start
 
