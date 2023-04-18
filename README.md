@@ -10,6 +10,7 @@ In this project, our method:
 
 <img src="figures/monorec_slam.png" width="800">
 
+<img src="figures/teaser.png" width="800">
 
 ## Benchmarks
 
