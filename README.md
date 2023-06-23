@@ -152,4 +152,4 @@ or ...
 
 ## Acknowledgement
 
-Team 21 of ROB 530 Mobile Robotics W23: [Yulun Zhuang](https://github.com/silvery107), [Hao Liu](https://github.com/wdliu356), [Xingqiao Zhu](https://github.com/xqiao12), [Vaishnavi Harikumar](https://github.com/ivaishi) and Janani Peri.
+Team 21 of ROB 530 Mobile Robotics W23: [Yulun Zhuang](https://github.com/silvery107), [Hao Liu](https://github.com/wdliu356), [Xingqiao Zhu](https://github.com/xqiao12), [Vaishnavi Harikumar](https://github.com/ivaishi) and [Janani Peri](https://github.com/perij-codes).
